@@ -6,7 +6,7 @@ authors = ["Almaz Ilaletdinov <a.ilaletdinov@yandex.ru>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
-clup = "clup.entry:main"
+clup = "clup.clup:entry"
 
 [tool.poetry.dependencies]
 python = "^3.9"

@@ -20,7 +20,10 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
+import argparse
 import re
+import sys
+from pathlib import Path
 
 ChangelogStr = str
 NewVersionNumStr = str
@@ -43,3 +46,42 @@ def main(changelog: ChangelogStr, version: NewVersionNumStr, date: DateStr) -> C
             continue
         res.append(line)
     return '\n'.join(res) + '\n'
+
+
+def entry():
+    parser = argparse.ArgumentParser(
+        description='\n'.join([
+            'Fake description',  # TODO fill
+        ]),
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        'path',
+        type=str,
+        default='CHANGELOG.md',
+        help=' '.join([
+            'Fake description',  # TODO fill
+        ]),
+    )
+    parser.add_argument(
+        'version',
+        type=str,
+        help='\n'.join([
+            'Fake description',  # TODO fill
+        ]),
+    )
+    parser.add_argument(
+        'date',
+        type=str,
+        help='\n'.join([
+            'Fake description',  # TODO fill
+        ]),
+    )
+    args = parser.parse_args()
+    sys.stdout.write(
+        main(
+            Path(args.path).read_text(),
+            args.version,
+            args.date,
+        ),
+    )
