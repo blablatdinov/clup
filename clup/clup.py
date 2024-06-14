@@ -20,6 +20,8 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
+import re
+
 ChangelogStr = str
 NewVersionNumStr = str
 DateStr = str
@@ -27,15 +29,17 @@ DateStr = str
 
 def main(changelog: ChangelogStr, version: NewVersionNumStr, date: DateStr) -> ChangelogStr:
     res = []
-    for line in changelog.splitlines():
+    changelog_lines = changelog.splitlines()
+    for idx, line in enumerate(changelog_lines):
         if line == '## [Unreleased]':
             res.append('## [Unreleased]\n')
             res.append('## [{0}] - {1}'.format(version, date))
             continue
         if line.startswith('[unreleased]: '):
-            # TODO: hardcoded lines
-            res.append('[unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/1.1.2...HEAD')
-            res.append('[1.1.2]: https://github.com/olivierlacan/keep-a-changelog/compare/1.1.1...1.1.2')
+            previous_version = re.findall(r'\[(.*)\]', changelog_lines[idx + 1])[0]
+            repo = '/'.join(line.split(' ')[1].split('/')[:-2])
+            res.append('[unreleased]: {0}/compare/{1}...HEAD'.format(repo, version))
+            res.append('[{0}]: {1}/compare/{2}...{3}'.format(version, repo, previous_version, version))
             continue
         res.append(line)
     return '\n'.join(res) + '\n'
