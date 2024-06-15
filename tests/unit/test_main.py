@@ -19,3 +19,32 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 # OR OTHER DEALINGS IN THE SOFTWARE.
+
+from clup.clup import main
+
+
+def test():
+    got = main(
+        '\n'.join([
+            '## [Unreleased]',
+            '',
+            '## [0.1.0] - 2023-05-16',
+            '',
+            '[unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/1.1.1...HEAD',
+            '[0.1.0]: https://github.com/olivierlacan/keep-a-changelog/tag/0.1.0',
+        ]),
+        '0.1.1',
+        '2023-05-20',
+    )
+
+    assert got.strip() == '\n'.join([
+        '## [Unreleased]',
+        '',
+        '## [0.1.1] - 2023-05-20',
+        '',
+        '## [0.1.0] - 2023-05-16',
+        '',
+        '[unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/0.1.1...HEAD',
+        '[0.1.1]: https://github.com/olivierlacan/keep-a-changelog/compare/0.1.0...0.1.1',
+        '[0.1.0]: https://github.com/olivierlacan/keep-a-changelog/tag/0.1.0',
+    ])
