@@ -11,7 +11,7 @@ This Python script updates a CHANGELOG.md file by adding a new version entry wit
 ## Installation
 
 ```bash
-pip install ondivi
+pip install clup
 ```
 
 ## Usage
