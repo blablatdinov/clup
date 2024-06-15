@@ -20,10 +20,13 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
+"""Unit tests."""
+
 from clup.clup import main
 
 
-def test():
+def test() -> None:
+    """Test main function."""
     got = main(
         '\n'.join([
             '## [Unreleased]',
