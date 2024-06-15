@@ -23,6 +23,7 @@
 """Integration test with installation."""
 
 import os
+import shutil
 import subprocess
 from collections.abc import Generator
 from pathlib import Path
@@ -39,24 +40,28 @@ def current_dir() -> Path:
 
 # flake8: noqa: S603, S607. Not a production code
 @pytest.fixture(scope='module')
-def _test_dir(tmpdir_factory: TempdirFactory, current_dir: str) -> Generator[None, None, None]:
+def test_dir(tmpdir_factory: TempdirFactory, current_dir: Path) -> Generator[Path, None, None]:
+    """Testing directory."""
     tmp_path = tmpdir_factory.mktemp('clup-test')
+    shutil.copy(current_dir / 'tests/fixtures/changelog.md', tmp_path / 'changelog.md')
     os.chdir(tmp_path)
     subprocess.run(['python', '-m', 'venv', 'venv'], check=True)
     subprocess.run(['venv/bin/pip', 'install', 'pip', '-U'], check=True)
     subprocess.run(['venv/bin/pip', 'install', str(current_dir)], check=True)
-    yield
+    yield tmp_path
     os.chdir(current_dir)
 
 
-@pytest.mark.usefixtures('_test_dir')
-def test(current_dir: Path) -> None:
+def test(current_dir: Path, test_dir: Path) -> None:
     """Test run via subprocess."""
     got = subprocess.run(
-        ['venv/bin/clup', str(current_dir / 'tests/fixtures/changelog.md'), '1.1.2', '2024-06-15'],
+        ['venv/bin/clup', 'changelog.md', '1.1.2', '2024-06-15'],
         stdout=subprocess.PIPE,
         check=False,
     )
 
     assert got.returncode == 0
-    assert got.stdout.decode('utf-8') == (current_dir / 'tests/fixtures/expected_out.md').read_text()
+    assert (
+        (test_dir / 'changelog.md').read_text(encoding='utf-8')
+        == (current_dir / 'tests/fixtures/expected_out.md').read_text(encoding='utf-8')
+    )

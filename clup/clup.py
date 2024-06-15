@@ -24,7 +24,6 @@
 
 import argparse
 import re
-import sys
 from pathlib import Path
 
 ChangelogStr = str
@@ -76,7 +75,7 @@ def entry() -> None:
         help='Release date for the new version. (e.g., 2024-06-15)',
     )
     args = parser.parse_args()
-    sys.stdout.write(
+    Path(args.path).write_text(
         main(
             Path(args.path).read_text(),
             args.version,
