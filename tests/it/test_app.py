@@ -58,5 +58,5 @@ def test(current_dir: Path) -> None:
         check=False,
     )
 
-    assert got.stdout.decode('utf-8') == 0
     assert got.returncode == 0
+    assert got.stdout.decode('utf-8') == (current_dir / 'tests/fixtures/expected_out.md').read_text()
