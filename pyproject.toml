@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "clup"
-version = "0.0.1-a1"
+version = "0.1.0"
 description = ""
 authors = ["Almaz Ilaletdinov <a.ilaletdinov@yandex.ru>"]
 readme = "README.md"
