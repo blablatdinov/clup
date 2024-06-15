@@ -20,15 +20,41 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
-"""Integraiton tests."""
+name: Mutation coverage
 
-from pathlib import Path
+on:
+  schedule:
+    - cron: '17 13 * * 3'
+  workflow_dispatch:
 
-from clup.clup import main
+permissions:
+  contents: read
 
-
-def test() -> None:
-    """Test with text files examples."""
-    got = main(Path('tests/fixtures/changelog.md').read_text(), '1.1.2', '2024-06-15')
-
-    assert got == Path('tests/fixtures/expected_out.md').read_text()
+jobs:
+  mutation-coverage:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+      - name: Install Poetry
+        uses: snok/install-poetry@v1.3.4
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ matrix.python_version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction
+      - name: Run mutmut
+        run: |
+          poetry run mutmut run --CI --no-progress
+          poetry run mutmut show clup/clup.py

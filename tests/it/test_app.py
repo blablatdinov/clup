@@ -20,21 +20,20 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 # OR OTHER DEALINGS IN THE SOFTWARE.
 
+"""Integration test with installation."""
+
 import os
 import subprocess
-import zipfile
 from collections.abc import Generator
 from pathlib import Path
 
 import pytest
 from _pytest.legacypath import TempdirFactory
 
-from clup.clup import main
-
 
 @pytest.fixture(scope='module')
 def current_dir() -> Path:
-    """Current directory for installing actual ondivi."""
+    """Current directory for installing actual clup."""
     return Path().absolute()
 
 
@@ -51,12 +50,13 @@ def _test_dir(tmpdir_factory: TempdirFactory, current_dir: str) -> Generator[Non
 
 
 @pytest.mark.usefixtures('_test_dir')
-def test(current_dir):
+def test(current_dir: Path) -> None:
+    """Test run via subprocess."""
     got = subprocess.run(
         ['venv/bin/clup', str(current_dir / 'tests/fixtures/changelog.md'), '1.1.2', '2024-06-15'],
         stdout=subprocess.PIPE,
         check=False,
     )
 
-    assert got.stdout.decode('utf-8') == 0
     assert got.returncode == 0
+    assert got.stdout.decode('utf-8') == (current_dir / 'tests/fixtures/expected_out.md').read_text()
