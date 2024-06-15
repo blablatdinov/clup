@@ -1,5 +1,11 @@
 # Clup (Change log upper)
 
+[![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
+[![PyPI version](https://badge.fury.io/py/clup.svg)](https://badge.fury.io/py/clup)
+![CI status](https://github.com/blablatdinov/clup/actions/workflows/pr-check.yml/badge.svg?branch=master)
+[![Lines of code](https://tokei.rs/b1/github/blablatdinov/clup)](https://github.com/XAMPPRocky/tokei_rs)
+[![Hits-of-Code](https://hitsofcode.com/github/blablatdinov/clup)](https://hitsofcode.com/github/blablatdinov/clup/view)
+
 This Python script updates a CHANGELOG.md file by adding a new version entry with the specified version number and date.
 
 ## Features:
