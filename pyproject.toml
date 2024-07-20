@@ -12,7 +12,7 @@ clup = "clup.clup:entry"
 python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "8.2.2"
+pytest = "8.3.1"
 ruff = "0.5.4"
 wemake-python-styleguide = "0.19.2"
 isort = "5.13.2"
