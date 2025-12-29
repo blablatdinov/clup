@@ -1,3 +1,7 @@
+<!---
+SPDX-FileCopyrightText: Copyright (c) 2018-2026 Almaz Ilaletdinov <a.ilaletdinov@yandex.ru>
+SPDX-License-Identifier: MIT
+-->
 # Clup (Change log upper)
 
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
