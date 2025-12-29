@@ -14,7 +14,7 @@ python = "^3.9"
 [tool.poetry.group.dev.dependencies]
 pytest = "8.3.5"
 ruff = "0.9.10"
-wemake-python-styleguide = "0.19.2"
+wemake-python-styleguide = "1.5.0"
 isort = "6.0.1"
 pytest-cov = "6.1.1"
 mypy = "1.15.0"
